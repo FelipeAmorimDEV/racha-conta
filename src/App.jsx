@@ -61,6 +61,8 @@ function App() {
           : friend,
       ),
     )
+    setSplitBillForm({ totalBill: 0, mySpent: 0, whoWillPay: 'you' })
+    setSelectedFriend(null)
   }
 
   return (
