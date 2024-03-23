@@ -29,17 +29,47 @@ const getStatusMsg = (balance) =>
       : { color: 'white-neutral', msg: 'Estão quites' }
 
 function App() {
-  const [friendSelected, setFriendSelected] = useState(null)
+  const [selectedFriend, setSelectedFriend] = useState(null)
+  const [friends, setFriends] = useState(initialFriends)
+  const [splitBillForm, setSplitBillForm] = useState({
+    totalBill: 0,
+    mySpent: 0,
+    whoWillPay: 'you',
+  })
 
-  const handleSelectFriend = (friend) => setFriendSelected(friend)
+  const handleSelectFriend = (friend) => setSelectedFriend(friend)
+
+  const handleChangeTotalBill = (e) =>
+    setSplitBillForm((sbf) => ({ ...sbf, totalBill: e.target.value }))
+  const handleChangeMySpent = (e) =>
+    setSplitBillForm((sbf) => ({ ...sbf, mySpent: e.target.value }))
+  const handleChangeWhoWillPay = (e) =>
+    setSplitBillForm((sbf) => ({ ...sbf, whoWillPay: e.target.value }))
+
+  const handleSplitBill = (e) => {
+    e.preventDefault()
+
+    const { totalBill, mySpent, whoWillPay } = splitBillForm
+
+    const transactionValue =
+      whoWillPay === 'you' ? +totalBill - +mySpent : -mySpent
+
+    setFriends((f) =>
+      f.map((friend) =>
+        friend.id === selectedFriend.id
+          ? { ...friend, balance: friend.balance + transactionValue }
+          : friend,
+      ),
+    )
+  }
 
   return (
     <main className="app">
       <aside className="sidebar">
         <ul>
-          {initialFriends.map((friend) => {
+          {friends.map((friend) => {
             const { color, msg } = getStatusMsg(friend.balance)
-            const isUserOpen = friendSelected?.id === friend.id
+            const isUserOpen = selectedFriend?.id === friend.id
 
             return (
               <li key={friend.id}>
@@ -57,6 +87,40 @@ function App() {
           })}
         </ul>
       </aside>
+      {selectedFriend && (
+        <form className="form-split-bill" onSubmit={handleSplitBill}>
+          <h2>Rache a conta com {selectedFriend.name}</h2>
+          <label>
+            💰 Valor total{' '}
+            <input
+              type="number"
+              value={splitBillForm.totalBill}
+              onChange={handleChangeTotalBill}
+            />
+          </label>
+          <label>
+            🤸‍♂️ Seus gastos{' '}
+            <input
+              type="number"
+              value={splitBillForm.mySpent}
+              onChange={handleChangeMySpent}
+            />
+          </label>
+          <label>
+            🤑 Quem vai pagar{' '}
+            <select
+              value={splitBillForm.whoWillPay}
+              onChange={handleChangeWhoWillPay}
+            >
+              <option value="you">Você</option>
+              <option value={selectedFriend.name}>{selectedFriend.name}</option>
+            </select>
+          </label>
+          <button type="submit" className="button">
+            Rachar conta
+          </button>
+        </form>
+      )}
     </main>
   )
 }
