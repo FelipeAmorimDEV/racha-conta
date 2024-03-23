@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 const initialFriends = [
   {
     id: crypto.randomUUID(),
@@ -27,18 +29,29 @@ const getStatusMsg = (balance) =>
       : { color: 'white-neutral', msg: 'Estão quites' }
 
 function App() {
+  const [friendSelected, setFriendSelected] = useState(null)
+
+  const handleSelectFriend = (friend) => setFriendSelected(friend)
+
   return (
     <main className="app">
       <aside className="sidebar">
         <ul>
           {initialFriends.map((friend) => {
             const { color, msg } = getStatusMsg(friend.balance)
+            const isUserOpen = friendSelected?.id === friend.id
+
             return (
               <li key={friend.id}>
                 <img src={friend.imgUrl} alt={`Foto de ${friend.name}`} />
                 <h3>{friend.name}</h3>
                 <p className={color}>{msg}</p>
-                <button className="button">Selecionar</button>
+                <button
+                  className={`button ${isUserOpen ? 'button-close' : ''}`}
+                  onClick={() => handleSelectFriend(friend)}
+                >
+                  {isUserOpen ? 'Fechar' : 'Selecionar'}
+                </button>
               </li>
             )
           })}
