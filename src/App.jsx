@@ -38,6 +38,25 @@ function Header() {
   )
 }
 
+function Friend({ friend, selectedFriend, onOpenSplitBillModal }) {
+  const { color, msg } = getStatusMsg(friend.balance)
+  const isUserOpen = selectedFriend?.id === friend.id
+
+  return (
+    <li key={friend.id}>
+      <img src={friend.imgUrl} alt={`Foto de ${friend.name}`} />
+      <h3>{friend.name}</h3>
+      <p className={color}>{msg}</p>
+      <button
+        className={`button ${isUserOpen ? 'button-close' : ''}`}
+        onClick={() => onOpenSplitBillModal(friend)}
+      >
+        {isUserOpen ? 'Fechar' : 'Selecionar'}
+      </button>
+    </li>
+  )
+}
+
 function App() {
   const [selectedFriend, setSelectedFriend] = useState(null)
   const [friends, setFriends] = useState(initialFriends)
@@ -114,24 +133,13 @@ function App() {
       <main className="app">
         <aside className="sidebar">
           <ul>
-            {friends.map((friend) => {
-              const { color, msg } = getStatusMsg(friend.balance)
-              const isUserOpen = selectedFriend?.id === friend.id
-
-              return (
-                <li key={friend.id}>
-                  <img src={friend.imgUrl} alt={`Foto de ${friend.name}`} />
-                  <h3>{friend.name}</h3>
-                  <p className={color}>{msg}</p>
-                  <button
-                    className={`button ${isUserOpen ? 'button-close' : ''}`}
-                    onClick={() => handleOpenSplitBillModal(friend)}
-                  >
-                    {isUserOpen ? 'Fechar' : 'Selecionar'}
-                  </button>
-                </li>
-              )
-            })}
+            {friends.map((friend) => (
+              <Friend
+                key={friend.id}
+                friend={friend}
+                onOpenSplitBillModal={handleOpenSplitBillModal}
+              />
+            ))}
           </ul>
           {addFriendModal && (
             <form className="form-add-friend" onSubmit={handleAddNewFriend}>
