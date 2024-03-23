@@ -37,7 +37,8 @@ function App() {
     whoWillPay: 'you',
   })
 
-  const handleSelectFriend = (friend) => setSelectedFriend(friend)
+  const handleSelectFriend = (friend) =>
+    setSelectedFriend((sf) => (sf?.id === friend.id ? null : friend))
 
   const handleChangeTotalBill = (e) =>
     setSplitBillForm((sbf) => ({ ...sbf, totalBill: e.target.value }))
