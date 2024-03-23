@@ -28,6 +28,16 @@ const getStatusMsg = (balance) =>
       ? { color: 'green-credit', msg: `Te deve ${balance} reais` }
       : { color: 'white-neutral', msg: 'Estão quites' }
 
+function Header() {
+  return (
+    <header className="header">
+      <a href="/">
+        <img src="logo-racha-conta.png" alt="Logo Racha Conta" />
+      </a>
+    </header>
+  )
+}
+
 function App() {
   const [selectedFriend, setSelectedFriend] = useState(null)
   const [friends, setFriends] = useState(initialFriends)
@@ -42,10 +52,8 @@ function App() {
     imgUrl: '',
   })
 
-  const selectFriend = (friend) => {
+  const selectFriend = (friend) =>
     setSelectedFriend((sf) => (sf?.id === friend.id ? null : friend))
-    setAddFriendModal(false)
-  }
 
   const handleSplitBill = (e) => {
     e.preventDefault()
@@ -84,7 +92,10 @@ function App() {
     setAddFriendModal((adm) => !adm)
     setSelectedFriend(null)
   }
-  const handleOpenSplitBillModal = (friend) => selectFriend(friend)
+  const handleOpenSplitBillModal = (friend) => {
+    selectFriend(friend)
+    setAddFriendModal(false)
+  }
 
   const handleChangeTotalBill = (e) =>
     setSplitBillForm((sbf) => ({ ...sbf, totalBill: e.target.value }))
@@ -99,11 +110,7 @@ function App() {
 
   return (
     <>
-      <header className="header">
-        <a href="/">
-          <img src="logo-racha-conta.png" alt="Logo Racha Conta" />
-        </a>
-      </header>
+      <Header />
       <main className="app">
         <aside className="sidebar">
           <ul>
