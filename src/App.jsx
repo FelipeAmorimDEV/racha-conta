@@ -4,6 +4,7 @@ import { AddFriendModal } from './components/add-friend-modal'
 import { SplitBillModal } from './components/split-bill-modal'
 
 import { useSplitBill } from './hooks/use-split-bill'
+import { useEffect } from 'react'
 
 function App() {
   const {
@@ -15,6 +16,14 @@ function App() {
     openFriendModal,
     openSplitBillModal,
   } = useSplitBill()
+
+  useEffect(() => {
+    const pageTitle = selectedFriend
+      ? `${selectedFriend.name} foi selecionado(a)`
+      : 'Racha-conta'
+
+    document.title = pageTitle
+  }, [selectedFriend])
 
   return (
     <>
