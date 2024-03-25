@@ -2,9 +2,9 @@ import { Header } from './components/header'
 import { Friend } from './components/friend'
 import { AddFriendModal } from './components/add-friend-modal'
 import { SplitBillModal } from './components/split-bill-modal'
+import { AddFriendButton } from './components/add-friend-button'
 
 import { useSplitBill } from './hooks/use-split-bill'
-import { useEffect } from 'react'
 
 function App() {
   const {
@@ -16,14 +16,6 @@ function App() {
     openFriendModal,
     openSplitBillModal,
   } = useSplitBill()
-
-  useEffect(() => {
-    const pageTitle = selectedFriend
-      ? `${selectedFriend.name} foi selecionado(a)`
-      : 'Racha-conta'
-
-    document.title = pageTitle
-  }, [selectedFriend])
 
   return (
     <>
@@ -41,12 +33,10 @@ function App() {
             ))}
           </ul>
           {addFriendModal && <AddFriendModal onAddNewFriend={addNewFriend} />}
-          <button
-            className={`button ${addFriendModal ? 'button-close' : ''}`}
-            onClick={openFriendModal}
-          >
-            {addFriendModal ? 'Fechar' : 'Adicionar amigo(a)'}
-          </button>
+          <AddFriendButton
+            addFriendModal={addFriendModal}
+            openFriendModal={openFriendModal}
+          />
         </aside>
         {selectedFriend && (
           <SplitBillModal

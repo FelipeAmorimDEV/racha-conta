@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 function SplitBillModal({ selectedFriend, onSplitBill }) {
   const [splitBillForm, setSplitBillForm] = useState({
@@ -6,6 +6,12 @@ function SplitBillModal({ selectedFriend, onSplitBill }) {
     mySpent: '',
     whoWillPay: 'you',
   })
+
+  useEffect(() => {
+    document.title = `${selectedFriend.name} foi selecionado(a)`
+
+    return () => (document.title = 'Racha-conta')
+  }, [selectedFriend])
 
   const handleChangeTotalBill = (e) =>
     setSplitBillForm((sbf) => ({ ...sbf, totalBill: e.target.value }))
