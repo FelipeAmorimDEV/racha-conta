@@ -20,9 +20,9 @@ function App() {
   return (
     <>
       <Header />
-      <main className="app">
-        <aside className="sidebar">
-          <ul>
+      <main className="grid grid-cols-[34rem_44rem] items-start justify-center gap-10">
+        <aside className="flex flex-col">
+          <ul className="list-none flex flex-col gap-2 text-2xl mb-8">
             {friends.map((friend) => (
               <Friend
                 key={friend.id}

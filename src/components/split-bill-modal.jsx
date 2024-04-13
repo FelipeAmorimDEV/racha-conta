@@ -33,31 +33,39 @@ function SplitBillModal({ selectedFriend, onSplitBill }) {
   }
 
   return (
-    <form className="form-split-bill" onSubmit={handleSplitBill}>
-      <h2>Rache a conta com {selectedFriend.name}</h2>
-      <label>
+    <form
+      className="px-16 py-14 flex flex-col rounded-md bg-slate-700 text-2xl"
+      onSubmit={handleSplitBill}
+    >
+      <h2 className="text-4xl trackiing-[-0.5px] mb-6">
+        Rache a conta com {selectedFriend.name}
+      </h2>
+      <label className="flex justify-between first-letter:inline-block first-letter:mr-1 first-letter:text-3xl">
         💰 Valor total{' '}
         <input
           type="number"
+          className="text-inherit text-2xl p-3 text-center rounded-md text-slate-800 focus:outline-none"
           value={splitBillForm.totalBill}
           onChange={handleChangeTotalBill}
           min={0}
           required
         />
       </label>
-      <label>
+      <label className="flex justify-between mt-2 mb-2 first-letter:inline-block first-letter:mr-1 first-letter:text-3xl">
         🤸‍♂️ Seus gastos{' '}
         <input
           type="number"
+          className="text-inherit text-2xl p-3 text-center rounded-md text-slate-800 focus:outline-none"
           value={splitBillForm.mySpent}
           onChange={handleChangeMySpent}
           min={0}
           required
         />
       </label>
-      <label>
+      <label className="flex justify-between first-letter:inline-block first-letter:mr-1 first-letter:text-3xl">
         🤑 Quem vai pagar{' '}
         <select
+          className="text-inherit text-2xl p-3 text-center rounded-md text-slate-800 focus:outline-none"
           value={splitBillForm.whoWillPay}
           onChange={handleChangeWhoWillPay}
         >
@@ -65,7 +73,10 @@ function SplitBillModal({ selectedFriend, onSplitBill }) {
           <option value={selectedFriend.name}>{selectedFriend.name}</option>
         </select>
       </label>
-      <button type="submit" className="button">
+      <button
+        type="submit"
+        className="cursor-pointer font-bold border-none rounded-lg px-5 py-3  bg-cyan-500 mt-2"
+      >
         Rachar conta
       </button>
     </form>
